@@ -126,8 +126,10 @@
     //3、实现图片延迟加载->条件:当前图片底边框距离body的偏移<浏览器底边框距离body的偏移,这样的条件下我们把当前的真实图片加载出来
     function init() {
         for (var i = 0; i < imgList.length; i++) {
+            // console.log(i);
             //->闭包的作用,防止异步编程导致只加载的是最后一张的图片,我们形成一个私有的作用域把用到的每一个索引都保护起来
             ~function (i) {
+                // console.log(i);
                 var curImg = imgList[i];
                 //->如果当前图片已经加载过了就不在重复加载了
                 if (curImg.isLoad) return;
@@ -138,6 +140,7 @@
                 //->符合条件开始加载真实的图片
                 if (curImgT < winT) {
                     var oImg = new Image;
+                    // console.log("~"+i);
                     oImg.src = curImg.getAttribute("trueImg");
                     oImg.onload = function () {
                         //this->oImg
@@ -148,8 +151,8 @@
             }(i);
         }
     }
-
-    window.setTimeout(init, 500);
+    window.onload = init;
+    // window.setTimeout(init, 500);
     window.onscroll = init;
 </script>
 <!--
